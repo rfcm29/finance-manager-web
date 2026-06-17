@@ -19,7 +19,7 @@ export default function DashboardPage() {
 
   return (
     <div className="page">
-      <h1>Welcome, {user?.name}</h1>
+      <h1>Welcome back, {user?.name} 👋</h1>
       <div className="stats-grid">
         <div className="stat-card">
           <h3>Total Balance</h3>
@@ -34,12 +34,13 @@ export default function DashboardPage() {
           <p className="amount">${monthlyExpenses.toFixed(2)}</p>
         </div>
       </div>
-      <h2>Recent Transactions</h2>
+      <div className="section-header"><h2>Recent Transactions</h2></div>
       <ul className="transaction-list">
+        {transactions.length === 0 && <li className="empty">No transactions yet.</li>}
         {transactions.slice(0, 10).map(t => (
           <li key={t.id} className={`transaction-item ${t.type.toLowerCase()}`}>
-            <span>{t.description}</span>
-            <span>{t.date}</span>
+            <span className="desc">{t.description}</span>
+            <span className="date">{t.date}</span>
             <span className="amount">{t.type === 'EXPENSE' ? '-' : '+'}${t.amount.toFixed(2)}</span>
           </li>
         ))}
