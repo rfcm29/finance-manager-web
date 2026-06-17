@@ -20,25 +20,29 @@ export default function AccountsPage() {
   return (
     <div className="page">
       <h1>Accounts</h1>
-      <form onSubmit={e => { e.preventDefault(); createMutation.mutate(form as any); }}>
+      <div className="form-card">
         <h2>Add Account</h2>
-        <input placeholder="Account Name" value={form.name}
-          onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
-        <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))}>
-          {['CHECKING','SAVINGS','CREDIT_CARD','INVESTMENT','CASH'].map(t => <option key={t}>{t}</option>)}
-        </select>
-        <input type="number" placeholder="Initial Balance" value={form.initialBalance}
-          onChange={e => setForm(f => ({ ...f, initialBalance: Number(e.target.value) }))} />
-        <button type="submit">Add Account</button>
-      </form>
+        <form onSubmit={e => { e.preventDefault(); createMutation.mutate(form as any); }}>
+          <div className="form-row">
+            <input placeholder="Account Name" value={form.name}
+              onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
+            <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))}>
+              {['CHECKING','SAVINGS','CREDIT_CARD','INVESTMENT','CASH'].map(t => <option key={t}>{t}</option>)}
+            </select>
+            <input type="number" placeholder="Initial Balance" value={form.initialBalance}
+              onChange={e => setForm(f => ({ ...f, initialBalance: Number(e.target.value) }))} />
+            <button type="submit" className="btn-sm" style={{ flexBasis: 'auto', flexGrow: 0 }}>Add Account</button>
+          </div>
+        </form>
+      </div>
+      <div className="section-header"><h2>Your Accounts</h2></div>
       <ul className="account-list">
+        {accounts.length === 0 && <li className="empty">No accounts yet. Add one above.</li>}
         {accounts.map(a => (
           <li key={a.id} className="account-item">
-            <div>
-              <strong>{a.name}</strong> <span className="badge">{a.type}</span>
-            </div>
+            <span className="acct-name">{a.name} <span className="badge">{a.type}</span></span>
             <span className="amount">{a.currency} {a.balance.toFixed(2)}</span>
-            <button onClick={() => deleteMutation.mutate(a.id)}>Delete</button>
+            <button className="btn-danger" onClick={() => deleteMutation.mutate(a.id)}>Delete</button>
           </li>
         ))}
       </ul>

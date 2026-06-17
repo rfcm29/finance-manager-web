@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 
 export default function Layout() {
@@ -11,12 +11,12 @@ export default function Layout() {
     <div className="app">
       <nav className="sidebar">
         <div className="logo">💰 Finance</div>
-        <Link to="/">Dashboard</Link>
-        <Link to="/accounts">Accounts</Link>
-        <Link to="/transactions">Transactions</Link>
+        <NavLink to="/" end>Dashboard</NavLink>
+        <NavLink to="/accounts">Accounts</NavLink>
+        <NavLink to="/transactions">Transactions</NavLink>
         <div className="spacer" />
         <div className="user-info">
-          <span>{user?.name}</span>
+          <span>{user?.email}</span>
           <button onClick={handleLogout}>Logout</button>
         </div>
       </nav>
