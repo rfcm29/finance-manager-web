@@ -14,12 +14,18 @@ export default function TransactionsPage() {
 
   const createMutation = useMutation({
     mutationFn: createTransaction,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['transactions', 'accounts'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['accounts'] });
+    },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteTransaction,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['transactions', 'accounts'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['accounts'] });
+    },
   });
 
   return (
@@ -55,7 +61,7 @@ export default function TransactionsPage() {
             <span className="acct">{t.account.name}</span>
             <span className="date">{t.date}</span>
             <span className="amount">{t.type === 'EXPENSE' ? '-' : '+'}${t.amount.toFixed(2)}</span>
-            <button className="btn-danger" onClick={() => deleteMutation.mutate(t.id)}>×</button>
+            <button className="btn-danger" onClick={() => deleteMutation.mutate(t.id)} disabled={deleteMutation.isPending}>×</button>
           </li>
         ))}
       </ul>
